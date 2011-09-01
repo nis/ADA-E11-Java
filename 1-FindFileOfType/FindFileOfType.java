@@ -3,31 +3,26 @@ import java.io.File;
 public class FindFileOfType {
 	public int number_of_files_found = 0;
 	public String filetype;
+	File start_point;
+	long time;
 	
 	public static void main (String[] args) {
-		System.out.println("Search started!");
 		
 		FindFileOfType my_class = new FindFileOfType();
-		my_class.FindFileOfType();
-	}
-	
-	public void FindFileOfType() {
-		search_for_files("mp3");
+		my_class.search_for_files("mp3");
 	}
 	
 	public void search_for_files(String e) {
 		filetype = e.toLowerCase();
-		System.out.print("Searching for: \"");
-		System.out.print(filetype);
-		System.out.println("\".");
+		System.out.println("Searching for: \"" + filetype + "\".");
 		
-		File start_point = new File("/Users/tamen/Desktop/mp3test/");
+		//start_point = new File("/Users/tamen/Desktop/mp3test");
+		start_point = new File("/Users/tamen");
+		time = System.currentTimeMillis();
 		search_dir(start_point);
-		System.out.print("Found ");
-		System.out.print(number_of_files_found);
-		System.out.print(" files of type \"");
-		System.out.print(filetype);
-		System.out.println("\".");
+		time = System.currentTimeMillis() - time;
+		System.out.println("Found " + number_of_files_found + " files of type \"" + filetype + "\".");
+		System.out.println("The search took " + time/1000 + "s.");
 	}
 	
 	public void search_dir(File p) {
@@ -35,15 +30,13 @@ public class FindFileOfType {
 		
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile()) {
-				String n = files[i].getName();
-				n = n.toLowerCase();
-				if (n.endsWith(filetype)) {
-					//System.out.println(n);
+				if (files[i].getName().toLowerCase().endsWith(filetype)) {
 					number_of_files_found++;
 				}
 			} else if (files[i].isDirectory()) {
-				String path = files[i].getAbsolutePath();
-				System.out.println(path);
+				if (!files[i].getName().startsWith(".")) {
+					search_dir(new File(files[i].getAbsolutePath()));
+				}
 			}
 		}
 	}
