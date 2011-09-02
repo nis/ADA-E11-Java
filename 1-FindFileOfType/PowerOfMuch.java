@@ -4,9 +4,14 @@ public class PowerOfMuch {
 	
 	public static void main (String[] args) {
 		PowerOfMuch my_class = new PowerOfMuch();
-		for(int i=0; i<101; i++){
+		int start = 0;
+		int end = 8413;
+		long time = System.currentTimeMillis();
+		for(int i=0; i<8413; i++){
 			my_class.exp(2, i);
 		}
+		time = System.currentTimeMillis() - time;
+		System.out.println("The calculation took " + time/1000 + "s.");
 	}
 	
 	public void exp(Integer b, Integer ex) {
