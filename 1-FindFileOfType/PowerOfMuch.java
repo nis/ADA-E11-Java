@@ -5,13 +5,16 @@ public class PowerOfMuch {
 	public static void main (String[] args) {
 		PowerOfMuch my_class = new PowerOfMuch();
 		long time = System.currentTimeMillis();
-		my_class.exp(2, 8413);
+		//my_class.exp(2, 8413, 5);
+		my_class.expAndMod(2, 100, 5);
 		time = System.currentTimeMillis() - time;
 		System.out.println("The calculation took " + time + "ms.");
 	}
 	
-	public void exp(Integer b, Integer ex) {
-		System.out.println(b + "^" + ex + " =\t" + worker(b, ex) );
+	public void expAndMod(Integer b, Integer ex, Integer m) {
+		BigInteger res = worker(b, ex);
+		System.out.println(b + "^" + ex + " =\t\t" + res );
+		System.out.println(b + "^" + ex + " % " + m + " =\t" + res.mod(BigInteger.valueOf(m)) );
 	}
 	
 	public BigInteger worker(Integer b, Integer ex) {
