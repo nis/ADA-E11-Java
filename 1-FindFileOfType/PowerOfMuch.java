@@ -12,19 +12,19 @@ public class PowerOfMuch {
 	}
 	
 	public void expAndMod(Integer b, Integer ex, Integer m) {
-		BigInteger res = worker(b, ex);
+		BigInteger res = exp(b, ex);
 		System.out.println(b + "^" + ex + " =\t\t" + res );
 		System.out.println(b + "^" + ex + " % " + m + " =\t" + res.mod(BigInteger.valueOf(m)) );
 	}
 	
-	public BigInteger worker(Integer b, Integer ex) {
+	public BigInteger exp(Integer b, Integer ex) {
 		BigInteger return_value = BigInteger.valueOf(b);
 		if (ex == 0) {
 			return BigInteger.valueOf(1);
 		} if ( ex == 1 ) {
 			return return_value;
 		} else {
-			return return_value.multiply(worker(b, --ex));
+			return return_value.multiply(exp(b, --ex));
 		}
 	}
 }
