@@ -19,15 +19,13 @@ public class FindFileOfType {
 	private int search_dir(File p, String filetype) {
 		File[] files = p.listFiles();
 		int result = 0;
-		if (files.length > 0) {
-			for (int i = 0; i < files.length; i++) {
-				if (files[i].isFile() && files[i].getName().toLowerCase().endsWith(filetype)) {
-					result++;
-				} else if (	files[i].isDirectory() && 
-							!files[i].isHidden() && 
-							files[i].getName().toLowerCase().indexOf(".") == -1) {
-					result += search_dir(new File(files[i].getAbsolutePath()), filetype);
-				}
+		for (int i = 0; i < files.length; i++) {
+			if (files[i].isFile() && files[i].getName().toLowerCase().endsWith(filetype)) {
+				result++;
+			} else if (	files[i].isDirectory() && 
+						!files[i].isHidden() && 
+						files[i].getName().toLowerCase().indexOf(".") == -1) {
+				result += search_dir(new File(files[i].getAbsolutePath()), filetype);
 			}
 		}
 		return result;
