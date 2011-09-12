@@ -5,8 +5,8 @@ public class PowerOfMuch {
 	public static void main (String[] args) {
 		PowerOfMuch my_class = new PowerOfMuch();
 		long time = System.currentTimeMillis();
-		//my_class.exp(2, 8413, 5);
-		my_class.expAndMod(2, 100, 5);
+		my_class.expAndMod(2, 8413, 5);
+		//my_class.expAndMod(2, 100, 5);
 		time = System.currentTimeMillis() - time;
 		System.out.println("The calculation took " + time + "ms.");
 	}
