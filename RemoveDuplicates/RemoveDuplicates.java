@@ -7,10 +7,10 @@ public class RemoveDuplicates {
 		my_class.test_doubly_linked_list();
 	}
 	
-	public DoublyLinkedList remove_duplicates_minimal_time(DoublyLinkedList l) {
+	public DoublyLinkedList remove_duplicates_minimal_time(DoublyLinkedList l, int size) {
 		// O(N)
 		Iterator itr = l.elements();
-		int arr[] = new int[10000];
+		int arr[] = new int[size];
 		DoublyLinkedList nl = new DoublyLinkedList();
 		
 		while (itr.hasMoreElements()) {
@@ -55,7 +55,7 @@ public class RemoveDuplicates {
 		System.out.println("Created new list with random numbers (0-" + max_rand + "). Size: " + list_size + "");
 		System.out.println("Removing duplicates, using minimal time...");
 		long time = System.currentTimeMillis();
-		DoublyLinkedList l1 = remove_duplicates_minimal_time(list);
+		DoublyLinkedList l1 = remove_duplicates_minimal_time(list, max_rand);
 		time = System.currentTimeMillis() - time;
 		System.out.println("New size: " + l1.size() + ". Time used: " + time + "ms.");
 		System.out.println("Removing duplicates, using minimal space...");
