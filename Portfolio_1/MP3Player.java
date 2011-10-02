@@ -131,13 +131,16 @@ public class MP3Player {
 		return System.currentTimeMillis() - time;
 	}
 	
-	private long hash_given_check(int runs, int steps) {
+	// The hash algorithm given in the assignment.
+	// Enhanced with the ability to only use every n'th character
+	// Using anything but all the characters can result in collisions.
+	private long hash_given_check(int runs, int n) {
 		String[] l = get_list_of_paths();
 		int le = l.length;
 		
 		long time = System.currentTimeMillis();
 		for (int i = 0; i < runs ; i++ ) {
-			for (int ii = 0; ii < le ; ii = ii + steps ) {
+			for (int ii = 0; ii < le ; ii = ii + n ) {
 				int hashVal = 0;
 			    for( int iii = 0; iii < l[ii].length( ); iii++ )
 			        hashVal = 37 * hashVal + l[ii].charAt( iii );
