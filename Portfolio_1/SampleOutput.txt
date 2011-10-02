@@ -1,0 +1,24 @@
+Scanning for MP3-files.
+---------------------------------------------------------------------------------------------------------------
+Execution took 2 seconds.
+Table holds 1565 paths.
+---------------------------------------------------------------------------------------------------------------
+
+Testing hashing algorithms with a precompiled list of paths.
+1000 runs through a list of 1565 strings.
+---------------------------------------------------------------------------------------------------------------
+Simple Hash 1:				220ms.	 Simple hash. Page 171.
+Simple Hash 1:				18ms.	 Another simple, very simple, hash. Page 171.
+Given Hash:					262ms.	 Given in the assignment.
+Given Hash, every 2. char:	131ms.	 Same as the above, but only uses every 2. char. Collisions can occur.
+Given Hash, every 3. char:	79ms.	 Same as the above, but only uses every 3. char. Collisions can occur.
+Given Hash, every 4. char:	59ms.	 Same as the above, but only uses every 4. char. Collisions can occur.
+Given Hash, every 5. char:	47ms.	 Same as the above, but only uses every 5. char. Collisions can occur.
+Hash DJB:					283ms.	 Hash function by Arash Partow.
+Hash AP:					597ms.	 Hash algorithm by Professor Daniel J. Bernstein.
+NS Hash every char:			272ms.	 My go at a hash algorithm. Collisions can occur.
+NS Hash, every 2. char:		142ms.	 Same as the above, but only uses every 2. char. Collisions can occur.
+NS Hash, every 3. char:		86ms.	 Same as the above, but only uses every 3. char. Collisions can occur.
+NS Hash, every 4. char:		66ms.	 Same as the above, but only uses every 4. char. Collisions can occur.
+NS Hash, every 5. char:		50ms.	 Same as the above, but only uses every 5. char. Collisions can occur.
+---------------------------------------------------------------------------------------------------------------

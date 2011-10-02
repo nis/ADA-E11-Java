@@ -4,17 +4,30 @@ public class MP3Player {
 	
 	public static void main (String[] args) {
 		MP3Player c = new MP3Player();
-		//c.start_up();
+		c.scan_for_mp3s();
 		c.test_hashing_algorithms();
 	}
 	
-	private void start_up() {
+	// This function scans the path given, and subdirs, for MP3 files.
+	// It saves the paths in a hashtable.
+	// As I assume no two file can be named the same and be in the same directory,
+	// there is no problem with duplicate files.
+	// If, on the other hand, you would like to only use the filename for the hash, two files
+	// with the same name but different location will result in a collision.
+	// Using ID3 tags from the MP3-files for hashes, can help alleviate this problem somewhat.
+	// 
+	// Only saving the paths is perhaps a bit silly as you would have to know the path to
+	// get the hash for the path, to get the path in the hash-table.
+	private void scan_for_mp3s() {
+		System.out.println("Scanning for MP3-files.");
+		System.out.println("---------------------------------------------------------------------------------------------------------------");
 		long time = System.currentTimeMillis();
 		QuadraticProbingHashTable mp3table = new QuadraticProbingHashTable();
-		search_dir(new File("/Users/tamen"), mp3table);
+		search_dir(new File("/Users/nis"), mp3table);
 		time = System.currentTimeMillis() - time;
 		System.out.println("Execution took " + time/1000 + " seconds.");
 		System.out.println("Table holds " + mp3table.get_current_size() + " paths.");
+		System.out.println("---------------------------------------------------------------------------------------------------------------\n");
 	}
 	
 	private void search_dir(File p, QuadraticProbingHashTable h) {
@@ -34,26 +47,31 @@ public class MP3Player {
 	private void test_hashing_algorithms() {
 		String[] l = get_list_of_paths();
 		int speed_runs = 1000;
-		System.out.println("\nTesting hashing algorithms");
-		System.out.println(speed_runs + " runs through a list of " + l.length + " strings");
-		System.out.println("------------------------------------------------------------------------------------------------");
+		System.out.println("Testing hashing algorithms with a precompiled list of paths.");
+		System.out.println(speed_runs + " runs through a list of " + l.length + " strings.");
+		System.out.println("---------------------------------------------------------------------------------------------------------------");
 		
-		System.out.println("Hash Simple:\t" + hash_simple_check(speed_runs) + "ms." + "\t Simple hash. Page 171.");
-		System.out.println("Hash Simple:\t" + hash_simple2_check(speed_runs) + "ms." + "\t Another simple, very simple, hash. Page 171.");
-		System.out.println("Hash 1:\t\t" + hash_given_check(speed_runs, 1) + "ms." + "\t Given in the assignment.");
-		System.out.println("Hash 2:\t\t" + hash_given_check(speed_runs, 2) + "ms." + "\t Same as the above, but only uses every 2. char. Collisions can occur.");
-		System.out.println("Hash 3:\t\t" + hash_given_check(speed_runs, 3) + "ms." + "\t Same as the above, but only uses every 3. char. Collisions can occur.");
-		System.out.println("Hash 4:\t\t" + hash_given_check(speed_runs, 4) + "ms." + "\t Same as the above, but only uses every 4. char. Collisions can occur.");
-		System.out.println("Hash 5:\t\t" + hash_given_check(speed_runs, 5) + "ms." + "\t Same as the above, but only uses every 5. char. Collisions can occur.");
-		System.out.println("Hash DJB:\t" + hash_DJB_check(speed_runs) + "ms." + "\t Hash function by Arash Partow.");
-		System.out.println("Hash AP:\t" + hash_AP_check(speed_runs) + "ms." + "\t Hash algorithm by Professor Daniel J. Bernstein.");
+		System.out.println("Simple Hash 1:			" + hash_simple_check(speed_runs) + "ms." + "\t Simple hash. Page 171.");
+		System.out.println("Simple Hash 1:			" + hash_simple2_check(speed_runs) + "ms." + "\t Another simple, very simple, hash. Page 171.");
+		System.out.println("Given Hash:			" + hash_given_check(speed_runs, 1) + "ms." + "\t Given in the assignment.");
+		System.out.println("Given Hash, every 2. char:	" + hash_given_check(speed_runs, 2) + "ms." + "\t Same as the above, but only uses every 2. char. Collisions can occur.");
+		System.out.println("Given Hash, every 3. char:	" + hash_given_check(speed_runs, 3) + "ms." + "\t Same as the above, but only uses every 3. char. Collisions can occur.");
+		System.out.println("Given Hash, every 4. char:	" + hash_given_check(speed_runs, 4) + "ms." + "\t Same as the above, but only uses every 4. char. Collisions can occur.");
+		System.out.println("Given Hash, every 5. char:	" + hash_given_check(speed_runs, 5) + "ms." + "\t Same as the above, but only uses every 5. char. Collisions can occur.");
+		System.out.println("Hash DJB:			" + hash_DJB_check(speed_runs) + "ms." + "\t Hash function by Arash Partow.");
+		System.out.println("Hash AP:			" + hash_AP_check(speed_runs) + "ms." + "\t Hash algorithm by Professor Daniel J. Bernstein.");
+		System.out.println("NS Hash every char:		" + hash_NS_check(speed_runs, 1) + "ms." + "\t My go at a hash algorithm. Collisions can occur.");
+		System.out.println("NS Hash, every 2. char:		" + hash_NS_check(speed_runs, 2) + "ms." + "\t Same as the above, but only uses every 2. char. Collisions can occur.");
+		System.out.println("NS Hash, every 3. char:		" + hash_NS_check(speed_runs, 3) + "ms." + "\t Same as the above, but only uses every 3. char. Collisions can occur.");
+		System.out.println("NS Hash, every 4. char:		" + hash_NS_check(speed_runs, 4) + "ms." + "\t Same as the above, but only uses every 4. char. Collisions can occur.");
+		System.out.println("NS Hash, every 5. char:		" + hash_NS_check(speed_runs, 5) + "ms." + "\t Same as the above, but only uses every 5. char. Collisions can occur.");
 		
-		System.out.println("------------------------------------------------------------------------------------------------");
+		System.out.println("---------------------------------------------------------------------------------------------------------------");
 	}
 
 	// Very simple hashing function.
 	// Only used the first 3 characters.
-	// Collisions are sure to happen for strings over longer than 3 characters.
+	// Collisions are sure to happen for strings longer than 3 characters.
 	private long hash_simple2_check(int runs) {
 		String[] l = get_list_of_paths();
 		int le = l.length;
@@ -144,6 +162,25 @@ public class MP3Player {
 				int hashVal = 0;
 			    for( int iii = 0; iii < l[ii].length( ); iii++ )
 			        hashVal = 37 * hashVal + l[ii].charAt( iii );
+			}
+		}
+		return System.currentTimeMillis() - time;
+	}
+	
+	// My try at a hash algorithm. Not very useful.
+	// I was trying to get out of the missing information from only using every n'th character
+	// by also including the place in teh string. But it will still cause collisions.
+	// A little bit slower and no better than the one given in the assignment.
+	private long hash_NS_check(int runs, int n) {
+		String[] l = get_list_of_paths();
+		int le = l.length;
+		
+		long time = System.currentTimeMillis();
+		for (int i = 0; i < runs ; i++ ) {
+			for (int ii = 0; ii < le ; ii = ii + n ) {
+				int hashVal = 0;
+			    for( int iii = 0; iii < l[ii].length( ); iii++ )
+			        hashVal = iii * 37 * hashVal + l[ii].charAt( iii );
 			}
 		}
 		return System.currentTimeMillis() - time;
