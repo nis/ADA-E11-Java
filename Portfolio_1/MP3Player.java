@@ -34,33 +34,174 @@ public class MP3Player {
 	private void test_hashing_algorithms() {
 		String[] l = get_list_of_paths();
 		int speed_runs = 1000;
-		System.out.println("\nTesting hashing algorithms:");
+		System.out.println("\nTesting hashing algorithms");
+		System.out.println(speed_runs + " runs through a list of " + l.length + " strings");
 		System.out.println("---------------------------\n");
 		
-		hash_1_check(speed_runs);
+		System.out.println("Hash Simple speed:\t" + hash_simple_check(speed_runs) + "ms." + "\t Simple hash. Page 171.");
+		System.out.println("Hash Simple speed:\t" + hash_simple2_check(speed_runs) + "ms." + "\t Another simple, very simple, hash. Page 171.");
+		System.out.println("Hash 1 speed:\t\t" + hash_1_check(speed_runs) + "ms." + "\t Given in the assignment.");
+		System.out.println("Hash 2 speed:\t\t" + hash_2_check(speed_runs) + "ms." + "\t Same as the above, but only uses every 2. char. Collisions can occur.");
+		System.out.println("Hash 3 speed:\t\t" + hash_3_check(speed_runs) + "ms." + "\t Same as the above, but only uses every 3. char. Collisions can occur.");
+		System.out.println("Hash 4 speed:\t\t" + hash_4_check(speed_runs) + "ms." + "\t Same as the above, but only uses every 4. char. Collisions can occur.");
+		System.out.println("Hash 5 speed:\t\t" + hash_5_check(speed_runs) + "ms." + "\t Same as the above, but only uses every 5. char. Collisions can occur.");
+		System.out.println("Hash DJB speed:\t\t" + hash_5_check(speed_runs) + "ms." + "\t  Hash function by Arash Partow.");
+		System.out.println("Hash AP speed:\t\t" + hash_5_check(speed_runs) + "ms." + "\t Hash algorithm by Professor Daniel J. Bernstein.");
 	}
-	
-	private void hash_1_check(int runs) {
+
+	// Very simple hashing function.
+	// Only used the first 3 characters.
+	// Collisions are sure to happen for strings over longer than 3 characters.
+	private long hash_simple2_check(int runs) {
 		String[] l = get_list_of_paths();
 		int le = l.length;
-		System.out.println("Hash 1 speed check:");
 		
 		long time = System.currentTimeMillis();
 		for (int i = 0; i < runs ; i++ ) {
 			for (int ii = 0; ii < le ; ii++ ) {
-				hash_1(l[ii]);
+				int hashVal = l[ii].charAt(0) + 27 * l[ii].charAt(1) + 729 * l[ii].charAt(2);
 			}
 		}
-		time = System.currentTimeMillis() - time;
-		System.out.println("Total:		" + time + "ms.");
+		return System.currentTimeMillis() - time;
 	}
 	
-	public int hash_1( String key )
-	{
-	    int hashVal = 0;
-	    for( int i = 0; i < key.length( ); i++ )
-	        hashVal = 37 * hashVal + key.charAt( i ); 
-	    return hashVal;
+	// Simple hashing function.
+	// Uses all the characters.
+	private long hash_simple_check(int runs) {
+		String[] l = get_list_of_paths();
+		int le = l.length;
+		
+		long time = System.currentTimeMillis();
+		for (int i = 0; i < runs ; i++ ) {
+			for (int ii = 0; ii < le ; ii++ ) {
+				int hashVal = 0;
+
+				for(int iii = 0; iii < l[ii].length(); iii++)
+				{
+				   hashVal += l[ii].charAt(iii);
+				}
+			}
+		}
+		return System.currentTimeMillis() - time;
+	}
+
+	// Hash function by Arash Partow
+	private long hash_AP_check(int runs) {
+		String[] l = get_list_of_paths();
+		int le = l.length;
+		
+		long time = System.currentTimeMillis();
+		for (int i = 0; i < runs ; i++ ) {
+			for (int ii = 0; ii < le ; ii++ ) {
+				long hashVal = 0xAAAAAAAA;
+
+				for(int iii = 0; iii < l[ii].length(); iii++)
+				{
+				   if ((iii & 1) == 0)
+				   {
+				      hashVal ^= ((hashVal << 7) ^ l[ii].charAt(iii) * (hashVal >> 3));
+				   }
+				   else
+				   {
+				      hashVal ^= (~((hashVal << 11) + l[ii].charAt(iii) ^ (hashVal >> 5)));
+				   }
+				}
+			}
+		}
+		return System.currentTimeMillis() - time;
+	}
+	
+	// Hash algorithm by Professor Daniel J. Bernstein
+	private long hash_DJB_check(int runs) {
+		String[] l = get_list_of_paths();
+		int le = l.length;
+		
+		long time = System.currentTimeMillis();
+		for (int i = 0; i < runs ; i++ ) {
+			for (int ii = 0; ii < le ; ii++ ) {
+				long hashVal = 5381;
+				for(int iii = 0; iii < l[ii].length(); iii++)
+				{
+				   hashVal = ((hashVal << 5) + hashVal) + l[ii].charAt(iii);
+				}
+			}
+		}
+		return System.currentTimeMillis() - time;
+	}
+	
+	private long hash_1_check(int runs) {
+		String[] l = get_list_of_paths();
+		int le = l.length;
+		
+		long time = System.currentTimeMillis();
+		for (int i = 0; i < runs ; i++ ) {
+			for (int ii = 0; ii < le ; ii++ ) {
+				int hashVal = 0;
+			    for( int iii = 0; iii < l[ii].length( ); iii++ )
+			        hashVal = 37 * hashVal + l[ii].charAt( iii );
+			}
+		}
+		return System.currentTimeMillis() - time;
+	}
+	
+	private long hash_2_check(int runs) {
+		String[] l = get_list_of_paths();
+		int le = l.length;
+		
+		long time = System.currentTimeMillis();
+		for (int i = 0; i < runs ; i++ ) {
+			for (int ii = 0; ii < le ; ii = ii + 2 ) {
+				int hashVal = 0;
+			    for( int iii = 0; iii < l[ii].length( ); iii++ )
+			        hashVal = 37 * hashVal + l[ii].charAt( iii );
+			}
+		}
+		return System.currentTimeMillis() - time;
+	}
+	
+	private long hash_3_check(int runs) {
+		String[] l = get_list_of_paths();
+		int le = l.length;
+		
+		long time = System.currentTimeMillis();
+		for (int i = 0; i < runs ; i++ ) {
+			for (int ii = 0; ii < le ; ii = ii + 3 ) {
+				int hashVal = 0;
+			    for( int iii = 0; iii < l[ii].length( ); iii++ )
+			        hashVal = 37 * hashVal + l[ii].charAt( iii );
+			}
+		}
+		return System.currentTimeMillis() - time;
+	}
+	
+	private long hash_4_check(int runs) {
+		String[] l = get_list_of_paths();
+		int le = l.length;
+		
+		long time = System.currentTimeMillis();
+		for (int i = 0; i < runs ; i++ ) {
+			for (int ii = 0; ii < le ; ii = ii + 4 ) {
+				int hashVal = 0;
+			    for( int iii = 0; iii < l[ii].length( ); iii++ )
+			        hashVal = 37 * hashVal + l[ii].charAt( iii );
+			}
+		}
+		return System.currentTimeMillis() - time;
+	}
+	
+	private long hash_5_check(int runs) {
+		String[] l = get_list_of_paths();
+		int le = l.length;
+		
+		long time = System.currentTimeMillis();
+		for (int i = 0; i < runs ; i++ ) {
+			for (int ii = 0; ii < le ; ii = ii + 5 ) {
+				int hashVal = 0;
+			    for( int iii = 0; iii < l[ii].length( ); iii++ )
+			        hashVal = 37 * hashVal + l[ii].charAt( iii );
+			}
+		}
+		return System.currentTimeMillis() - time;
 	}
 	
 	private String[] get_list_of_paths() {
