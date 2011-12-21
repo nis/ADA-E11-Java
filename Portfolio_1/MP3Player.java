@@ -4,7 +4,7 @@ public class MP3Player {
 	
 	public static void main (String[] args) {
 		MP3Player c = new MP3Player();
-		c.scan_for_mp3s();
+		//c.scan_for_mp3s();
 		c.test_hashing_algorithms();
 	}
 	
@@ -58,8 +58,8 @@ public class MP3Player {
 		System.out.println("Given Hash, every 3. char:	" + hash_given_check(speed_runs, 3) + "ms." + "\t Same as the above, but only uses every 3. char. Collisions can occur.");
 		System.out.println("Given Hash, every 4. char:	" + hash_given_check(speed_runs, 4) + "ms." + "\t Same as the above, but only uses every 4. char. Collisions can occur.");
 		System.out.println("Given Hash, every 5. char:	" + hash_given_check(speed_runs, 5) + "ms." + "\t Same as the above, but only uses every 5. char. Collisions can occur.");
-		System.out.println("Hash DJB:			" + hash_DJB_check(speed_runs) + "ms." + "\t Hash function by Arash Partow.");
-		System.out.println("Hash AP:			" + hash_AP_check(speed_runs) + "ms." + "\t Hash algorithm by Professor Daniel J. Bernstein.");
+		System.out.println("Hash DJB:			" + hash_DJB_check(speed_runs) + "ms." + "\t Hash function by Professor Daniel J. Bernstein.");
+		System.out.println("Hash AP:			" + hash_AP_check(speed_runs) + "ms." + "\t Hash algorithm by Arash Partow.");
 		System.out.println("NS Hash every char:		" + hash_NS_check(speed_runs, 1) + "ms." + "\t My go at a hash algorithm. Collisions can occur.");
 		System.out.println("NS Hash, every 2. char:		" + hash_NS_check(speed_runs, 2) + "ms." + "\t Same as the above, but only uses every 2. char. Collisions can occur.");
 		System.out.println("NS Hash, every 3. char:		" + hash_NS_check(speed_runs, 3) + "ms." + "\t Same as the above, but only uses every 3. char. Collisions can occur.");
